@@ -96,14 +96,9 @@
     import DMPM from './routes/mantenimientoMaq/detallados/DMPM.routes.js'
     import TipoMantenimiento from './routes/mantenimientos/tipoMantenimiento/tipoMantenimiento.js'
 
-   
+    const HOST = '127.0.0.1';
     const app = express()
-    app.use(cors({
-        origin: 'http://localhost:3001',
-        methods: ['GET', 'POST', 'PUT'],
-        allowedHeaders: ['Content-Type', 'Authorization']
-    }));
-    
+    app.use(cors());
     app.use(bodyParser.json());
     app.use(express.json())   
 
@@ -269,5 +264,7 @@
     app.use(DMPHM)
     app.use(DMPM)
 
-const PORT= process.env.PORT||3001
-    app.listen(PORT, ()=>{    console.log('puerto escuchando en el puerto 3001')})
+
+    app.listen(3001)
+
+    console.log('puerto escuchando en el puerto 3001')
