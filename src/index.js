@@ -95,7 +95,12 @@
     import DMPHM from './routes/mantenimientoMaq/detallados/DMPHM.routes.js'
     import DMPM from './routes/mantenimientoMaq/detallados/DMPM.routes.js'
     import TipoMantenimiento from './routes/mantenimientos/tipoMantenimiento/tipoMantenimiento.js'
+    import dotenv from 'dotenv';
+
+// Carga las variables de entorno desde el archivo .env
+   dotenv.config();
     
+    const Origen =  process.env.ALLOWED_ORIGIN;
 
 
     const app = express()
@@ -103,7 +108,7 @@
     // app.use(cors);
     app.use(cors({
       
-      origin: 'https://ecofiltroapi.netlify.app', // Utiliza la variable de entorno correcta
+      origin: Origen, // Utiliza la variable de entorno correcta
       methods: ['GET', 'POST', 'PUT'], // Métodos permitidos
       allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
     }));

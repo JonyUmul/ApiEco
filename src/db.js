@@ -1,8 +1,13 @@
 import { createPool } from "mysql2/promise";
+import dotenv from 'dotenv';
+
+// Carga las variables de entorno desde el archivo .env
+   dotenv.config();
+   const BD =  process.env.DB_URL;
 
 
 export const pool= createPool({
-    host: 'ecofiltro-db.cbmq4k8s0gw4.us-east-2.rds.amazonaws.com',
+    host: BD,
     user:'admin',
     password: 'Controldedatos12',
     port:3306,
