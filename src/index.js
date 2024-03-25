@@ -112,6 +112,14 @@
       methods: ['GET', 'POST', 'PUT'], // Métodos permitidos
       allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
     }));
+
+    // Middleware para configurar CORS
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", Origen);
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
     app.use(bodyParser.json());
     app.use(express.json())   
 
