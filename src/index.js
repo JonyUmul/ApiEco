@@ -95,14 +95,18 @@
     import DMPHM from './routes/mantenimientoMaq/detallados/DMPHM.routes.js'
     import DMPM from './routes/mantenimientoMaq/detallados/DMPM.routes.js'
     import TipoMantenimiento from './routes/mantenimientos/tipoMantenimiento/tipoMantenimiento.js'
+    
 
-    const HOST = '127.0.0.1';
+
     const app = express()
+
+    // app.use(cors);
     app.use(cors({
-        origin: 'https://frontend-8lti.onrender.com', // Reemplaza esto con tu dominio frontend
-        methods: ['GET', 'POST', 'PUT'], // Métodos permitidos
-        allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
-      }));
+      
+      origin: 'https://appproduccion.onrender.com', // Utiliza la variable de entorno correcta
+      methods: ['GET', 'POST', 'PUT'], // Métodos permitidos
+      allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
+    }));
     app.use(bodyParser.json());
     app.use(express.json())   
 
@@ -269,6 +273,6 @@
     app.use(DMPM)
 
   
-    app.listen(process.env.PORT || 3000)
+    app.listen(process.env.PORT || 3001)
 
     console.log('puerto escuchando en el puerto 3001')
