@@ -264,7 +264,7 @@
     app.use(DMPHM)
     app.use(DMPM)
 
-
-    app.listen(3001)
+  
+    app.listen(process.env.PORT || 3000)
 
     console.log('puerto escuchando en el puerto 3001')
