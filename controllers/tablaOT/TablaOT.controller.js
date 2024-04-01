@@ -1,4 +1,3 @@
-// import { pool } from '../../../backend/src/db.js';
 import { pool } from '../../src/db.js';
 
 export const getTablaOT = async (req, res) => {
@@ -52,6 +51,12 @@ export const getTablaOT = async (req, res) => {
  SELECT 'othh' AS encabezado, 'Horneados' AS EncName, id, fecha_creacion, id_creador
  FROM othh 
  WHERE id_est = 2
+
+ UNION all
+
+ SELECT 'otip' AS encabezado, 'Impregnación' AS EncName, id, fecha_creacion, id_creador
+ FROM otip 
+ WHERE id_est = 2
         `;
 
         const [rows] = await pool.query(consulta);
@@ -69,4 +74,3 @@ export const getTablaOT = async (req, res) => {
         res.status(500).send("Error del servidor");
     }
 };
-
