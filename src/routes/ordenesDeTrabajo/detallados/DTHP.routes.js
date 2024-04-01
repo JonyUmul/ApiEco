@@ -9,7 +9,7 @@
     router.post('/DTHP', postDTHP);
     router.get('/DTHP/:id', getDTHP);
     // router.get('/DTHP/:fecha', getDTH);
-    router.get('/DTHP/:fecha_creacion/:id_asrd/:id_patio', getDTHPP);
+    router.get('/DTHP/:fecha_creacion/:id_asrd/:id_patio/:id_enc', getDTHPP);
 
 
     export default router;
