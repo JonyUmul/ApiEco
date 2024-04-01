@@ -14,6 +14,7 @@
     import TablaCp from './routes/tablaCP/TablaCP.js'
     import TablaMaquinaria from './routes/tablaMaquinaria/TablaMaquinaria.js'
     import OTHP from './routes/ordenesDeTrabajo/encabezados/OTHP.routes.js'
+    import OTIP from './routes/ordenesDeTrabajo/encabezados/OTIP.routes.js'
     import OTSA from './routes/ordenesDeTrabajo/encabezados/OTSMP.routes.js'
     import OTCA1 from './routes/ordenesDeTrabajo/encabezados/OTCA1.routes.js'
     import OTPV from './routes/ordenesDeTrabajo/encabezados/OTPV.routes.js'
@@ -32,6 +33,7 @@
     import DTFM from './routes/ordenesDeTrabajo/detallados/DTFM.routes.js'
     import Turnos from './routes/mantenimientos/turnos/Turnos.routes.js'
     import DTP from './routes/ordenesDeTrabajo/detallados/DTP.routes.js'
+   import DTIP from './routes/ordenesDeTrabajo/detallados/DTIP.routes.js'
     import OTHH from './routes/ordenesDeTrabajo/encabezados/OTHH.routes.js'
     import maquinaria from './routes/mantenimientos/maquinaria/Maquinaria.routes.js'
     import Operarios from './routes/mantenimientos/operarios/OperariosAreas.routes.js'
@@ -218,6 +220,11 @@ app.use(function(req, res, next) {
     //Hornos
     app.use(OTHH)
     app.use(DTHH)
+
+    //Impregnados
+    app.use(OTIP)
+    app.use(DTIP)
+    
 
     //Personal por area
     app.use(Operarios)
