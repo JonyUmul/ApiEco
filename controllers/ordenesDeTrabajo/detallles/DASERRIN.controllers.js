@@ -1,12 +1,12 @@
 import { pool } from "../../../src/db.js";
 
 export const postDASERRIN = async (req, res) => {
-  const { id_OTSaserrin, id_asrd, id_patio, cantidad_inicial, cantidad_final } =
-    req.body;
+  const { id_OTSaserrin, id_MP, id_asrd, id_patio, cantidad_inicial, cantidad_final }=req.body;
   console.log(id_OTSaserrin);
   try {
     if (
-      id_OTSaserrin === "" ||
+      id_OTSaserrin===""||
+      id_MP===""||
       id_asrd === "" ||
       id_patio === "" ||
       cantidad_inicial === "" ||
@@ -15,9 +15,10 @@ export const postDASERRIN = async (req, res) => {
       console.log("Uno o varios datos están vacíos");
     } else {
       const consulta =
-        "INSERT INTO daserrin(id_OTSaserrin, id_asrdSMP, id_patio, cantidad_inicial, cantidad_final) VALUES (?, ?, ?, ?, ?)";
+        "INSERT INTO daserrin(id_OTSaserrin, id_MP, id_asrdSMP, id_patio, cantidad_inicial, cantidad_final) VALUES (?, ?, ?, ?, ?,?)";
       const [rows] = await pool.query(consulta, [
       id_OTSaserrin,
+      id_MP,
       id_asrd,
       id_patio,
       cantidad_inicial,
@@ -43,14 +44,17 @@ export const getDASERRIN = async (req, res) => {
 		d.cantidad_final,
 		d.fecha_creacion,
 		otsa.id AS id_otsa,
+    enc_matprima.nom_matPrima as matPrima,
 		aserradero.nombre_aserradero AS aserradero,
 		patios.nombrePatio AS patio
 	
 
 	FROM 
 		daserrin d
-	JOIN 
+  JOIN 
 		otsa ON d.id_OTSaserrin = otsa.id
+  JOIN 
+  enc_matprima ON d.id_MP = enc_matprima.id_enc
 	JOIN 
 		aserradero ON d.id_asrdSMP = aserradero.id
 	JOIN 
@@ -74,7 +78,7 @@ export const getDASERRIN = async (req, res) => {
 
 
 export const getDASERRI = async (req, res) => {
-  const { id_asrdSMP, fecha_creacion, id_patio } = req.params; // Obtener los parámetros de la URL
+  const { id_asrdSMP,id_MP, fecha_creacion, id_patio } = req.params; // Obtener los parámetros de la URL
 
   try {
       let consulta = `
@@ -86,12 +90,15 @@ export const getDASERRI = async (req, res) => {
       d.hora_creacion,
       d.fecha_creacion,
       otsa.id AS id_OTSA,
+      enc_matprima.nom_matPrima as matPrima,
       aserradero.nombre_aserradero AS aserradero,
       patios.nombrePatio AS patio
   FROM 
       daserrin d
   JOIN 
       otsa ON d.id_OTSaserrin = otsa.id
+  JOIN 
+  enc_matprima ON d.id_MP = enc_matprima.id_enc
   JOIN 
       aserradero ON d.id_asrdSMP = aserradero.id
   JOIN 
@@ -115,6 +122,11 @@ export const getDASERRI = async (req, res) => {
           consulta += ' AND (d.fecha_creacion IS NULL OR d.fecha_creacion = ?)';
           params.push(fecha_creacion);
       }
+      
+      if (id_MP !== 'null') {
+        consulta += ' AND (d.id_MP IS NULL OR d.id_MP = ?)';
+        params.push(id_MP);
+    }
 
       const [rows] = await pool.query(consulta, params);
 

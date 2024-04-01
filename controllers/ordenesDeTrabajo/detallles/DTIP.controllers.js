@@ -1,15 +1,16 @@
 import { pool } from "../../../src/db.js";
 
-export const postDTHP = async (req, res) => {
 
-    const { id_OTHP,id_matPrima,  id_asrd, id_patio, esquinaSupIZ, esquinaSupDA, esquinaCentro, esquinaInfIZ, esquinaInfDR } = req.body;
-    console.log(id_OTHP)
+export const postDTIP = async (req, res) => {
+
+    const { id_OTIP, id_modelo,  codigoInicio, codigoFinal, impregnados, mermas, id_creadot } = req.body;
+    
     try {
-        if (id_OTHP === '' || id_asrd === '', id_matPrima==='' || id_patio === '' || esquinaSupIZ === '' || esquinaSupDA === '' || esquinaCentro === '' || esquinaInfIZ === '' || esquinaInfDR === '') {
+        if (id_OTIP === '' || id_modelo === '', codigoInicio==='' || codigoFinal === '' || impregnados === '' || mermas === '' ) {
             console.log('Uno o varios datos están vacíos');
         } else {
-            const consulta = 'INSERT INTO dthp (id_OTHP,id_matPrima,  id_asrd, id_patio, esquinaSupIZ, esquinaSupDA, esquinaCentro, esquinaInfDR, esquinaInfIZ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-            const [rows] = await pool.query(consulta, [id_OTHP,id_matPrima, id_asrd, id_patio, esquinaSupIZ, esquinaSupDA, esquinaCentro, esquinaInfIZ, esquinaInfDR]);
+            const consulta = 'INSERT INTO dtip (id_OTIP, id_modelo,  codigoInicio, codigoFinal, impregnados, mermas, id_creadot) VALUES (?, ?, ?, ?, ?, ?, ?)';
+            const [rows] = await pool.query(consulta, [id_OTIP, id_modelo,  codigoInicio, codigoFinal, impregnados, mermas, id_creadot]);
             res.send({ rows });
         }
     } catch (err) {
@@ -18,36 +19,29 @@ export const postDTHP = async (req, res) => {
 };
 
 
-export const getDTHP = async (req, res) => {
+export const getDTIP = async (req, res) => {
     const id= req.params.id;
     try {
       // Consulta SQL para obtener todos los registros de la tabla dtp
       const consulta = `
       select 
       d.id,
-      d.esquinaSupIZ,
-      d.esquinaSupDA,
-      d.esquinaCentro,
-      d.esquinaInfDR,
-      d.esquinaInfIZ,
-      d.fecha_creacion,
-      othp.id AS id_OTHP,
-      enc_matprima.nom_matPrima as materiaPrima,
-      aserradero.nombre_aserradero AS aserradero,
-      patios.nombrePatio AS patio
-  
+      d.id_otip,
+      d.codigoInicio,
+      d.codigoFinal,
+      d.impregnados,
+      d.mermas,
+      d.fechaCreacion,
+      d.horaCreacion,
+      ufmodelo.nombre_modelo as modelo
 
   FROM 
-      dthp d
+      dtip d
+
   JOIN 
-      othp ON d.id_OTHP = othp.id
-  JOIN 
-      aserradero ON d.id_asrd = aserradero.id
-  JOIN 
-      patios ON d.id_patio = patios.id
-  JOIN 
-      enc_matprima ON d.id_matPrima = enc_matprima.id_enc
-      where othp.id= ?
+      ufmodelo ON d.id_modelo = ufmodelo.id_mod
+      
+      WHERE d.id_otip= ?
   `;
       const [rows] = await pool.query(consulta,[id]);
   
@@ -61,7 +55,7 @@ export const getDTHP = async (req, res) => {
   };
 
 
-  export const getDTHPP = async (req, res) => {
+  export const getSDTIP = async (req, res) => {
     const { id_asrd, fecha_creacion, id_patio, id_enc } = req.params; // Obtener los parámetros de la URL
 
     try {
