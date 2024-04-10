@@ -3,14 +3,14 @@ import { pool } from "../../../src/db.js";
 
 export const postDTIP = async (req, res) => {
 
-    const { id_OTIP, id_modelo,  codigoInicio, codigoFinal, impregnados, mermas, id_creadot } = req.body;
+    const { id_OTIP,fecha_real, id_modelo,  codigoInicio, codigoFinal, impregnados, mermas, id_creadot } = req.body;
     
     try {
         if (id_OTIP === '' || id_modelo === '', codigoInicio==='' || codigoFinal === '' || impregnados === '' || mermas === '' ) {
             console.log('Uno o varios datos están vacíos');
         } else {
-            const consulta = 'INSERT INTO dtip (id_OTIP, id_modelo,  codigoInicio, codigoFinal, impregnados, mermas, id_creadot) VALUES (?, ?, ?, ?, ?, ?, ?)';
-            const [rows] = await pool.query(consulta, [id_OTIP, id_modelo,  codigoInicio, codigoFinal, impregnados, mermas, id_creadot]);
+            const consulta = 'INSERT INTO dtip (id_OTIP,fecha_real, id_modelo,  codigoInicio, codigoFinal, impregnados, mermas, id_creadot) VALUES (?, ?, ?, ?, ?, ?, ?)';
+            const [rows] = await pool.query(consulta, [id_OTIP, fecha_real,id_modelo,  codigoInicio, codigoFinal, impregnados, mermas, id_creadot]);
             res.send({ rows });
         }
     } catch (err) {

@@ -24,7 +24,9 @@ export const getDTHP = async (req, res) => {
       // Consulta SQL para obtener todos los registros de la tabla dtp
       const consulta = `
       select 
+      d.hora_creacion,
       d.id,
+      ROUND(((d.esquinaSupIZ+d.esquinaSupDA+d.esquinaCentro+d.esquinaInfDR+d.esquinaInfIZ)/5)) as promedio,
       d.esquinaSupIZ,
       d.esquinaSupDA,
       d.esquinaCentro,
@@ -62,7 +64,7 @@ export const getDTHP = async (req, res) => {
 
 
   export const getDTHPP = async (req, res) => {
-    const { id_asrd, fecha_creacion, id_patio, id_enc } = req.params; // Obtener los parámetros de la URL
+    const { id_asrd, fecha_creacion_inicio,fecha_creacion_fin, id_patio, id_enc } = req.params; // Obtener los parámetros de la URL
 
     try {
         let consulta = `
@@ -74,6 +76,7 @@ export const getDTHP = async (req, res) => {
                 d.esquinaInfDR,
                 d.esquinaInfIZ,
                 d.fecha_creacion,
+              
                 othp.id AS id_OTHP,
                 aserradero.nombre_aserradero AS aserradero,
                 patios.nombrePatio AS patio,
@@ -103,9 +106,17 @@ export const getDTHP = async (req, res) => {
             params.push(id_asrd);
         }
 
-        if (fecha_creacion !== 'null') {
-            consulta += ' AND (d.fecha_creacion IS NULL OR d.fecha_creacion = ?)';
-            params.push(fecha_creacion);
+        if (fecha_creacion_inicio !== 'null' && fecha_creacion_fin !== 'null') {
+            if (fecha_creacion_inicio !== 'null' && fecha_creacion_fin !== 'null') {
+                consulta += ' AND (d.fecha_creacion BETWEEN ? AND ?)';
+                params.push(fecha_creacion_inicio, fecha_creacion_fin);
+            } else if (fecha_creacion_inicio !== 'null') {
+                consulta += ' AND d.fecha_creacion >= ?';
+                params.push(fecha_creacion_inicio);
+            } else {
+                consulta += ' AND d.fecha_creacion <= ?';
+                params.push(fecha_creacion_fin);
+            }
         }
 
         if (id_enc !== 'null') {
